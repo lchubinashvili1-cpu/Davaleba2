@@ -1,36 +1,43 @@
-<?php
-if (isset($_POST["folder"])) {
-    $folder = basename($_POST["folder"]);
-
-    if (!is_dir($folder)) {
-        mkdir($folder);
-    }
-}
-?>
 
 <!DOCTYPE html>
 <html lang="ka">
 <head>
     <meta charset="UTF-8">
-    <title>Task 2</title>
+    <title>davaleba2</title>
 </head>
 <body>
 
-<h2>საქაღალდის შემოწმება</h2>
+<h2>საქაღალდის შექმნა</h2>
 
 <form method="POST">
-    <input type="text" name="folder" required>
+    <input type="text" name="folder" placeholder="საქაღალდის სახელი" required>
     <button type="submit">შექმნა</button>
 </form>
 
+<h2>საქაღალდის შემოწმება</h2>
+
 <form method="GET">
-    <input type="text" name="folder" placeholder="შეიყვანე საქაღალდის სახელი" required>
+    <input type="text" name="check" placeholder="საქაღალდის სახელი" required>
     <button type="submit">შემოწმება</button>
 </form>
 
 <?php
-if (isset($_GET["folder"])) {
-    $folder = basename($_GET["folder"]);
+if (isset($_POST["folder"])) {
+    $folder = basename($_POST["folder"]);
+
+    if (!is_dir($folder)) {
+        if (mkdir($folder)) {
+            echo "საქაღალდე შეიქმნა!";
+        } else {
+            echo "საქაღალდის შექმნა ვერ მოხერხდა!";
+        }
+    } else {
+        echo "საქაღალდე უკვე არსებობს!";
+    }
+}
+
+if (isset($_GET["check"])) {
+    $folder = basename($_GET["check"]);
 
     if (is_dir($folder)) {
         echo "საქაღალდე არსებობს!";
@@ -42,3 +49,4 @@ if (isset($_GET["folder"])) {
 
 </body>
 </html>
+
