@@ -1,1 +1,42 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <title>დავალება</title>
+</head>
+<body>
 
+<h2>საქაღალდის შექმნა</h2>
+
+<form method="POST">
+    საქაღალდის სახელი:
+    <input type="text" name="folder" required>
+    <button type="submit">შექმნა</button>
+</form>
+
+<?php
+if (isset($_POST["folder"])) {
+    $folder = $_POST["folder"];
+
+    if (is_dir($folder)) {
+        $message = "საქაღალდე უკვე არსებობს.";
+    } else {
+        if (mkdir($folder)) {
+            $message = "საქაღალდე შეიქმნა წარმატებით.";
+        } else {
+            $message = "საქაღალდის შექმნა ვერ მოხერხდა.";
+        }
+    }
+}
+
+if (isset($_GET["show"]) && $_GET["show"] == 1) {
+    if (isset($message)) {
+        echo $message;
+    } else {
+        echo "ჯერ საქაღალდის სახელი შეიყვანე.";
+    }
+}
+?>
+
+</body>
+</html>
