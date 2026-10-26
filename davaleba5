@@ -1,0 +1,64 @@
+
+
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <title>Task 12</title>
+</head>
+<body>
+
+<h2>საქაღალდეების შექმნა</h2>
+
+<form method="POST">
+    <input type="text" name="main" placeholder="მთავარი საქაღალდე" required>
+    <input type="text" name="sub" placeholder="ქვესაქაღალდე" required>
+    <button type="submit">შექმნა</button>
+</form>
+
+<h2>მთავარი საქაღალდის შიგთავსი</h2>
+
+<form method="GET">
+    <input type="text" name="folder" placeholder="მთავარი საქაღალდის სახელი" required>
+    <button type="submit">ნახვა</button>
+</form>
+
+<?php
+if (isset($_POST["main"]) && isset($_POST["sub"])) {
+    $main = basename($_POST["main"]);
+    $sub = basename($_POST["sub"]);
+
+    if (!is_dir($main)) {
+        mkdir($main);
+    }
+
+    if (is_dir($main)) {
+        if (mkdir($main . "/" . $sub)) {
+            echo "საქაღალდეები შეიქმნა!";
+        } else {
+            echo "ქვესაქაღალდე ვერ შეიქმნა ან უკვე არსებობს!";
+        }
+    }
+}
+
+if (isset($_GET["folder"])) {
+    $folder = basename($_GET["folder"]);
+
+    if (is_dir($folder)) {
+        $files = scandir($folder);
+
+        echo "<ol>";
+        foreach ($files as $file) {
+            if ($file != "." && $file != "..") {
+                echo "<li>" . htmlspecialchars($file) . "</li>";
+            }
+        }
+        echo "</ol>";
+    } else {
+        echo "მთავარი საქაღალდე არ არსებობს!";
+    }
+}
+?>
+
+</body>
+</html>
