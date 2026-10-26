@@ -1,0 +1,56 @@
+```php
+<?php
+if (isset($_POST["folder"])) {
+    $folder = basename($_POST["folder"]);
+
+    if (is_dir($folder)) {
+        if (count(scandir($folder)) == 2) {
+            if (rmdir($folder)) {
+                echo "საქაღალდე წაიშალა!";
+            } else {
+                echo "საქაღალდის წაშლა ვერ მოხერხდა!";
+            }
+        } else {
+            echo "საქაღალდე ცარიელი არ არის!";
+        }
+    } else {
+        echo "ასეთი საქაღალდე არ არსებობს!";
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <title>Task 3</title>
+</head>
+<body>
+
+<h2>საქაღალდის წაშლა</h2>
+
+<form method="POST">
+    <input type="text" name="folder" placeholder="საქაღალდის სახელი" required>
+    <button type="submit">წაშლა</button>
+</form>
+
+<form method="GET">
+    <input type="text" name="folder" placeholder="საქაღალდის შემოწმება" required>
+    <button type="submit">შემოწმება</button>
+</form>
+
+<?php
+if (isset($_GET["folder"])) {
+    $folder = basename($_GET["folder"]);
+
+    if (is_dir($folder)) {
+        echo "საქაღალდე არსებობს!";
+    } else {
+        echo "საქაღალდე არ არსებობს!";
+    }
+}
+?>
+
+</body>
+</html>
+```
