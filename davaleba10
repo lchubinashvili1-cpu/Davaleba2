@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <title>Task 10</title>
+</head>
+<body>
+
+<h2>საქაღალდის შიგთავსის ნახვა</h2>
+
+<form method="GET">
+    <input type="text" name="folder" placeholder="საქაღალდის სახელი" required>
+    <button type="submit">ნახვა</button>
+</form>
+
+<h2>საქაღალდის წაშლა</h2>
+
+<form method="POST">
+    <input type="text" name="folder" placeholder="საქაღალდის სახელი" required>
+    <button type="submit">წაშლა</button>
+</form>
+
+<?php
+if (isset($_GET["folder"])) {
+    $folder = basename($_GET["folder"]);
+
+    if (is_dir($folder)) {
+        $files = scandir($folder);
+
+        foreach ($files as $file) {
+            if ($file != "." && $file != "..") {
+                echo htmlspecialchars($file) . "<br>";
+            }
+        }
+
+        if (count($files) == 2) {
+            echo "საქაღალდე ცარიელია!";
+        }
+    } else {
+        echo "საქაღალდე არ არსებობს!";
+    }
+}
+
+if (isset($_POST["folder"])) {
+    $folder = basename($_POST["folder"]);
+
+    if (is_dir($folder)) {
+        $files = scandir($folder);
+
+        if (count($files) == 2) {
+            if (rmdir($folder)) {
+                echo "საქაღალდე წაიშალა!";
+            } else {
+                echo "წაშლა ვერ მოხერხდა!";
+            }
+        } else {
+            echo "საქაღალდე ცარიელი არ არის და ვერ წაიშლება!";
+        }
+    } else {
+        echo "საქაღალდე არ არსებობს!";
+    }
+}
+?>
+
+</body>
+</html>
